@@ -7,7 +7,8 @@ const {
   GraphQLInt,
 } = graphql;
 
-const API_URL = 'localhost:3000';
+const API_URL = 'http://localhost:3000';
+
 const UserType = new GraphQLObjectType({
   name: 'User',
   fields: {
