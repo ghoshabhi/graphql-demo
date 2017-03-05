@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "node server.js --silent",
+    "json:server": "json-server --watch db.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
