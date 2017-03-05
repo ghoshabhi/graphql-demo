@@ -3,12 +3,32 @@
     {
       "id": "23",
       "firstName": "Abhishek",
-      "age": 24
+      "age": 24,
+      "companyId": 1
     },
     {
       "id": "55",
       "firstName": "Ryan",
-      "age": 24
+      "age": 30,
+      "companyId": 2
+    },
+    {
+      "id": "155",
+      "firstName": "Scott",
+      "age": 34,
+      "companyId": 2
+    }
+  ],
+  "companies": [
+    {
+      "id": "1",
+      "name": "Google",
+      "description": "The best search engine ever"
+    },
+    {
+      "id": "2",
+      "name": "Netflix",
+      "description": "The best source of entertainment ever"
     }
   ]
 }
