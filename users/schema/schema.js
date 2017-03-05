@@ -6,6 +6,7 @@ const {
   GraphQLString,
   GraphQLInt,
   GraphQLList,
+  GraphQLNonNull,
 } = graphql;
 
 const API_URL = 'http://localhost:3000';
@@ -45,8 +46,8 @@ const UserType = new GraphQLObjectType({
   })
 });
 
-const RootQuery = new GraphQLObjectType({
-  name: 'RootQueryType',
+const query = new GraphQLObjectType({
+  name: 'RootQuery',
   fields: {
     user: {
       type: UserType,
@@ -69,6 +70,27 @@ const RootQuery = new GraphQLObjectType({
   },
 });
 
+
+const mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addUser: {
+      type: UserType,
+      args: {
+        firstName: { type: new GraphQLNonNull(GraphQLString) },
+        age: { type: new GraphQLNonNull(GraphQLInt) },
+        companyId: { type: GraphQLString }
+      },
+      resolve(parentValue, { firstName, age }) {
+        return axios
+                .post(`${API_URL}/users`, { firstName, age })
+                .then(resp => resp.data);
+      }
+    }
+  }
+});
+
 module.exports = new GraphQLSchema({
-  query: RootQuery,
+  query,
+  mutation,
 });
