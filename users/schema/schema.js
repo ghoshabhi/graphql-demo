@@ -47,6 +47,13 @@ const UserType = new GraphQLObjectType({
 const query = new GraphQLObjectType({
   name: 'RootQuery',
   fields: {
+    users: {
+      type: new GraphQLList(UserType),
+      resolve(){
+        return axios.get(`${API_URL}/users`)
+                    .then(resp => resp.data);
+      }
+    },
     user: {
       type: UserType,
       args: { id: { type: GraphQLString } },
