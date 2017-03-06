@@ -47,7 +47,7 @@ const UserType = new GraphQLObjectType({
 const query = new GraphQLObjectType({
   name: 'RootQuery',
   fields: {
-    users: {
+    getAllUsers: {
       type: new GraphQLList(UserType),
       description: 'Returns all users',
       resolve(){
@@ -55,16 +55,24 @@ const query = new GraphQLObjectType({
                     .then(resp => resp.data);
       }
     },
-    user: {
+    getUser: {
       type: UserType,
       description: 'Returns a User with given id',
       args: { id: { type: GraphQLString } },
       resolve(parentValue, args) {
         return axios.get(`${API_URL}/users/${args.id}`)
                     .then(resp => resp.data);
-      },
+      }
     },
-    company: {
+    getAllCompanies: {
+      type: new GraphQLList(CompanyType),
+      description: 'Returns all Companies',
+      resolve() {
+        return axios.get(`${API_URL}/companies`)
+                    .then(resp => resp.data);
+      }
+    },
+    getCompany: {
       type: CompanyType,
       description: 'Returns a Company with given id',
       args: { id: { type: GraphQLString } },
