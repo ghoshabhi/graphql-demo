@@ -20,9 +20,8 @@ const CompanyType = new GraphQLObjectType({
     users: {
       type: new GraphQLList(UserType),
       resolve(parentValue, args) {
-        return axios
-                .get(`${API_URL}/companies/${parentValue.id}/users`)
-                .then(resp => resp.data);
+        return axios.get(`${API_URL}/companies/${parentValue.id}/users`)
+                    .then(resp => resp.data);
       }
     }
   })
@@ -38,9 +37,8 @@ const UserType = new GraphQLObjectType({
       type: CompanyType,
       resolve(parentValue, args) {
         //console.log(parentValue, args);
-        return axios
-                .get(`${API_URL}/companies/${parentValue.companyId}`)
-                .then(resp => resp.data);
+        return axios.get(`${API_URL}/companies/${parentValue.companyId}`)
+                    .then(resp => resp.data);
       } 
     },
   })
@@ -53,18 +51,16 @@ const query = new GraphQLObjectType({
       type: UserType,
       args: { id: { type: GraphQLString } },
       resolve(parentValue, args) {
-        return axios
-                .get(`${API_URL}/users/${args.id}`)
-                .then(resp => resp.data);
+        return axios.get(`${API_URL}/users/${args.id}`)
+                    .then(resp => resp.data);
       },
     },
     company: {
       type: CompanyType,
       args: { id: { type: GraphQLString } },
       resolve(parentValue, args) {
-        return axios
-                .get(`${API_URL}/companies/${args.id}`)
-                .then(resp => resp.data);
+        return axios.get(`${API_URL}/companies/${args.id}`)
+                    .then(resp => resp.data);
       }
     }
   },
@@ -82,9 +78,8 @@ const mutation = new GraphQLObjectType({
         companyId: { type: GraphQLString }
       },
       resolve(parentValue, { firstName, age }) {
-        return axios
-                .post(`${API_URL}/users`, { firstName, age })
-                .then(resp => resp.data);
+        return axios.post(`${API_URL}/users`, { firstName, age })
+                    .then(resp => resp.data);
       }
     },
     deleteUser: {
@@ -93,9 +88,21 @@ const mutation = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parentValue, { id }) {
-        return axios
-                .delete(`${API_URL}/users/${id}`)
-                .then(resp => resp.data);
+        return axios.delete(`${API_URL}/users/${id}`)
+                    .then(resp => resp.data);
+      }
+    },
+    editUser: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        firstName: { type: GraphQLString },
+        age: { type: GraphQLInt },
+        companyId: { type: GraphQLString }
+      },
+      resolve(parentValue, args) {
+        return axios.patch(`${API_URL}/users/${args.id}`, args)
+                    .then(resp => resp.data);
       }
     }
   }
