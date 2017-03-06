@@ -49,6 +49,7 @@ const query = new GraphQLObjectType({
   fields: {
     users: {
       type: new GraphQLList(UserType),
+      description: 'Returns all users',
       resolve(){
         return axios.get(`${API_URL}/users`)
                     .then(resp => resp.data);
@@ -56,6 +57,7 @@ const query = new GraphQLObjectType({
     },
     user: {
       type: UserType,
+      description: 'Returns a User with given id',
       args: { id: { type: GraphQLString } },
       resolve(parentValue, args) {
         return axios.get(`${API_URL}/users/${args.id}`)
@@ -64,6 +66,7 @@ const query = new GraphQLObjectType({
     },
     company: {
       type: CompanyType,
+      description: 'Returns a Company with given id',
       args: { id: { type: GraphQLString } },
       resolve(parentValue, args) {
         return axios.get(`${API_URL}/companies/${args.id}`)
